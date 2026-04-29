@@ -37,7 +37,8 @@ body::before {
 #app {
   width: 100%;
   max-width: 480px;
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -46,7 +47,7 @@ body::before {
 .screen {
   display: none;
   flex-direction: column;
-  min-height: 100dvh;
+  height: 100%;
   animation: fadeIn 0.35s ease;
 }
 
