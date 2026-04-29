@@ -7,7 +7,7 @@ export const SCENES = [
     emoji: '🌧️',
     description: '비가 촉촉이 내리는 날이에요.',
     category: '자연',
-    bgEmojis: ['🌧️', '☁️', '💧', '💦', '🌿'],
+    bgEmojis: ['🌧️', '☁️', '💧', '💦', '🍃'],
     bgColors: ['#b8d4f0', '#8ab4d8'],
   },
   {
@@ -16,7 +16,7 @@ export const SCENES = [
     emoji: '🌲',
     description: '초록 나무가 가득한 숲이에요.',
     category: '자연',
-    bgEmojis: ['🌲', '🌿', '🍃', '🌱', '🍀'],
+    bgEmojis: ['🌲', '🌳', '🍃', '🌱', '🍀'],
     bgColors: ['#c8e6c9', '#81c784'],
   },
   {
@@ -34,7 +34,7 @@ export const SCENES = [
     emoji: '🐄',
     description: '동물 친구들이 사는 농장이에요.',
     category: '동물',
-    bgEmojis: ['🌾', '🌻', '🏡', '🌿', '☀️'],
+    bgEmojis: ['🌱', '🌻', '🏡', '🍃', '☀️'],
     bgColors: ['#fff9c4', '#f9a825'],
   },
   {
@@ -52,7 +52,7 @@ export const SCENES = [
     emoji: '🐸',
     description: '연못 주변 친구들이에요.',
     category: '동물',
-    bgEmojis: ['💧', '🌿', '🪷', '🐟', '🌊'],
+    bgEmojis: ['💧', '🍃', '🌸', '🐟', '🌊'],
     bgColors: ['#e0f7fa', '#4dd0e1'],
   },
   {
@@ -61,7 +61,7 @@ export const SCENES = [
     emoji: '🌅',
     description: '눈을 뜨는 아침이에요.',
     category: '일상',
-    bgEmojis: ['🌅', '☀️', '🌤️', '🌈', '✨'],
+    bgEmojis: ['🌅', '☀️', '⛅', '🌈', '✨'],
     bgColors: ['#fff3e0', '#ffb74d'],
   },
   {
@@ -70,7 +70,7 @@ export const SCENES = [
     emoji: '🎠',
     description: '신나게 노는 놀이터예요.',
     category: '일상',
-    bgEmojis: ['🎠', '🛝', '⛲', '🌳', '☀️'],
+    bgEmojis: ['🎠', '🎡', '⛲', '🌳', '☀️'],
     bgColors: ['#f3e5f5', '#ce93d8'],
   },
 ];
