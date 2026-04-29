@@ -26,6 +26,13 @@ function initApp() {
     });
   }
 
+  const btnHome = document.getElementById('btn-home');
+  if (btnHome) {
+    btnHome.addEventListener('click', () => {
+      showScreen('screen-start');
+    });
+  }
+
   showScreen('screen-start');
 }
 
