@@ -77,7 +77,35 @@ function loadCurrentWord() {
   state.game.dock = dock;
 
   renderSlots(word);
+  attachSlotTapHandlers();
   renderDock(dock, onSyllableTap);
+}
+
+function attachSlotTapHandlers() {
+  const row = document.getElementById('slot-row');
+  if (!row) return;
+  row.addEventListener('click', e => {
+    const slotEl = e.target.closest('.syllable-slot');
+    if (!slotEl) return;
+    if (!slotEl.classList.contains('filled') || slotEl.classList.contains('locked')) return;
+    onFilledSlotTap(parseInt(slotEl.dataset.idx, 10));
+  });
+}
+
+function onFilledSlotTap(idx) {
+  const state = getState();
+  const { slot } = state.game;
+  if (idx < slot.lockedCount) return;
+
+  for (let i = idx; i < slot.filled.length; i++) {
+    if (slot.filled[i]) {
+      slot.filled[i].used = false;
+      unmarkUsed(slot.filled[i].id);
+      slot.filled[i] = null;
+    }
+  }
+  clearSlotsFrom(idx);
+  vibrate(10);
 }
 
 function onSyllableTap(syllable) {
