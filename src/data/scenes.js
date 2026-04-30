@@ -9,6 +9,7 @@ export const SCENES = [
     category: '자연',
     bgEmojis: ['🌧️', '☁️', '💧', '💦', '🍃'],
     bgColors: ['#b8d4f0', '#8ab4d8'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?rain,rainy&sig=1',
   },
   {
     id: 'forest',
@@ -18,6 +19,7 @@ export const SCENES = [
     category: '자연',
     bgEmojis: ['🌲', '🌳', '🍃', '🌱', '🍀'],
     bgColors: ['#c8e6c9', '#81c784'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?forest,trees&sig=2',
   },
   {
     id: 'sea',
@@ -27,6 +29,7 @@ export const SCENES = [
     category: '자연',
     bgEmojis: ['🌊', '🐚', '⭐', '🐠', '🏖️'],
     bgColors: ['#b3e5fc', '#4fc3f7'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?beach,ocean&sig=3',
   },
   {
     id: 'farm',
@@ -36,6 +39,7 @@ export const SCENES = [
     category: '동물',
     bgEmojis: ['🌱', '🌻', '🏡', '🍃', '☀️'],
     bgColors: ['#fff9c4', '#f9a825'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?farm,countryside&sig=4',
   },
   {
     id: 'meadow',
@@ -45,6 +49,7 @@ export const SCENES = [
     category: '동물',
     bgEmojis: ['🌸', '🌺', '🌼', '🌻', '🍃'],
     bgColors: ['#fce4ec', '#f48fb1'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?flowers,meadow&sig=5',
   },
   {
     id: 'pond',
@@ -54,6 +59,7 @@ export const SCENES = [
     category: '동물',
     bgEmojis: ['💧', '🍃', '🌸', '🐟', '🌊'],
     bgColors: ['#e0f7fa', '#4dd0e1'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?pond,lake,nature&sig=6',
   },
   {
     id: 'morning',
@@ -63,6 +69,7 @@ export const SCENES = [
     category: '일상',
     bgEmojis: ['🌅', '☀️', '⛅', '🌈', '✨'],
     bgColors: ['#fff3e0', '#ffb74d'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?sunrise,morning&sig=7',
   },
   {
     id: 'playground',
@@ -72,6 +79,7 @@ export const SCENES = [
     category: '일상',
     bgEmojis: ['🎠', '🎡', '⛲', '🌳', '☀️'],
     bgColors: ['#f3e5f5', '#ce93d8'],
+    bgImage: 'https://source.unsplash.com/featured/800x600/?playground,park&sig=8',
   },
 ];
 
