@@ -11,6 +11,7 @@ function getCtx() {
 function tone(freq, start, dur, type = 'sine', peak = 0.18) {
   const c = getCtx();
   if (!c) return;
+  if (c.state === 'suspended') c.resume();
   const t0 = c.currentTime + start;
   const osc = c.createOscillator();
   const gain = c.createGain();

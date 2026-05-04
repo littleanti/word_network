@@ -55,6 +55,17 @@ export function initDrag(container, getSyllableById, onDrop, signal) {
     blockEl.addEventListener('pointermove', onMove);
     blockEl.addEventListener('pointerup', onUp);
     blockEl.addEventListener('pointercancel', onUp);
+
+    if (signal) {
+      signal.addEventListener('abort', () => {
+        blockEl.removeEventListener('pointermove', onMove);
+        blockEl.removeEventListener('pointerup', onUp);
+        blockEl.removeEventListener('pointercancel', onUp);
+        if (ghost) { ghost.remove(); ghost = null; }
+        blockEl.classList.remove('dragging');
+        clearDropHighlights();
+      }, { once: true });
+    }
   }, { signal });
 }
 

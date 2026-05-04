@@ -131,6 +131,7 @@ function onSyllableDrop(syllable, slotIdx) {
   if (slotIdx < slot.lockedCount) return;
   if (slot.filled[slotIdx] !== null) return;
   if (syllable.used) return;
+  if (slot.filled.every(v => v !== null)) return;
 
   slot.filled[slotIdx] = syllable;
   syllable.used = true;
