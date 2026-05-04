@@ -2,11 +2,15 @@ import { SCENES } from '../data/scenes.js';
 import { WORDS_BY_SCENE } from '../data/words.js';
 import { getState, resetGame, getCurrentTargetWord } from './state.js';
 import { buildDock, renderDock, markUsed, unmarkUsed } from './syllable-dock.js';
-import { renderSlots, fillNextSlot, checkSlots, lockSlots, clearSlotsFrom, markSlotsWrong, celebrateSlots, shakeSlots } from './slot.js';
+import { renderSlots, fillNextSlot, fillSlotAt, checkSlots, lockSlots, clearSlotsFrom, markSlotsWrong, celebrateSlots, shakeSlots } from './slot.js';
 import { renderScene, markWordMatched } from './scene.js';
 import { showScreen, showFlash, updateProgress, updateScore } from './ui.js';
 import { vibrate } from './utils.js';
 import { speak } from './tts.js';
+import { playCorrect, playIncorrect } from './sound.js';
+import { initDrag } from './dnd.js';
+
+let _dragController = null;
 
 const ENCOURAGEMENT = [
   '정말 잘했어요! 👏',
@@ -46,6 +50,19 @@ export function startGame() {
   showScreen('screen-play');
   updateProgress(0, state.game.scenes.length);
   updateScore(0);
+
+  if (_dragController) _dragController.abort();
+  _dragController = new AbortController();
+  const dockEl = document.getElementById('syllable-dock');
+  if (dockEl) {
+    initDrag(
+      dockEl,
+      sylId => getState().game.dock.find(s => s.id === sylId),
+      onSyllableDrop,
+      _dragController.signal,
+    );
+  }
+
   loadCurrentScene();
 }
 
@@ -108,6 +125,24 @@ function onFilledSlotTap(idx) {
   vibrate(10);
 }
 
+function onSyllableDrop(syllable, slotIdx) {
+  const state = getState();
+  const { slot } = state.game;
+  if (slotIdx < slot.lockedCount) return;
+  if (slot.filled[slotIdx] !== null) return;
+  if (syllable.used) return;
+
+  slot.filled[slotIdx] = syllable;
+  syllable.used = true;
+  markUsed(syllable.id);
+  fillSlotAt(syllable.char, slotIdx);
+  vibrate(15);
+
+  if (slot.filled.every(v => v !== null)) {
+    validateAnswer(getCurrentTargetWord());
+  }
+}
+
 function onSyllableTap(syllable) {
   const state = getState();
   const word = getCurrentTargetWord();
@@ -138,6 +173,7 @@ function validateAnswer(word) {
 
   if (result === 'correct') {
     celebrateSlots();
+    playCorrect();
     vibrate(30);
     speak(word.word);
     markWordMatched(word.id);
@@ -155,6 +191,7 @@ function validateAnswer(word) {
 
   } else if (result && result.status === 'wrong') {
     shakeSlots();
+    playIncorrect();
     vibrate(50);
     markSlotsWrong(result.correctPrefixLen);
 

@@ -1,8 +1,8 @@
 # 🔧 TRD — 3_word_network · 순우리말 어휘망 연결 게임
 
 > Technical Requirements Document
-> Last updated: 2026-04-25
-> Status: 설계 단계 (구현 전)
+> Last updated: 2026-05-04
+> Status: Phase 1 완료 · Phase 2 일부 구현
 > 기준 패턴: `1_chosung_quiz/` (Vanilla JS · ES Modules · 정적 호스팅)
 
 ## 1. 기술 스택
@@ -28,7 +28,9 @@
 
 ## 2. 아키텍처
 
-### 2.1 디렉터리 구조 (계획)
+### 2.1 디렉터리 구조
+
+> ✅ = 구현 완료 / 🔲 = 미구현(계획)
 
 ```
 3_word_network/
@@ -37,54 +39,64 @@
 │   ├── PRD.md
 │   ├── TRD.md           ← 본 문서
 │   └── PLAN.md
-├── index.html
-├── package.json         (선택, scripts만)
-├── favicon.svg
+├── index.html            ✅
+├── package.json          ✅ (npx serve . -p 3003)
+├── favicon.svg           ✅
 └── src/
     ├── css/
-    │   ├── tokens.css       # 색·간격·폰트 토큰
-    │   ├── base.css         # 리셋·body·뷰포트
-    │   ├── components.css   # 음절블록·슬롯·도크·칩
-    │   └── screens.css      # start/play/end 화면
+    │   ├── tokens.css       ✅ 색·간격·폰트 토큰
+    │   ├── base.css         ✅ 리셋·body·100dvh 뷰포트
+    │   ├── components.css   ✅ 음절블록·슬롯·도크·scene-bg-photo·overlay
+    │   └── screens.css      ✅ start/play/end 화면
     ├── data/
-    │   ├── words.js         # 단어·카테고리·음절·hotspot
-    │   └── scenes.js        # 장면(일러스트) ↔ 정답 단어 매핑
+    │   ├── words.js         ✅ 50개 단어·카테고리·음절·hotspot·emoji
+    │   └── scenes.js        ✅ 8개 장면 + bgImage(Unsplash) + bgColors + bgEmojis
     ├── images/
-    │   └── scenes/          # rain.svg, zoo.svg, ...
+    │   └── scenes/          🔲 (현재 Unsplash URL 사용 — Phase 4에서 자체 에셋 전환)
     └── js/
-        ├── main.js          # 진입점·초기화
-        ├── config.js        # 상수(카테고리, 난이도, 슬롯 수, 캘러 토큰)
-        ├── state.js         # 단일 상태 객체
-        ├── storage.js       # localStorage / IndexedDB 래퍼
-        ├── utils.js         # 셔플·rng·좌표 유틸
-        ├── tts.js           # Web Speech API 래퍼 (1단계 재사용)
-        ├── ui.js            # 화면 전환·플래시 메시지
-        ├── settings.js      # 설정 화면 + filterScenes()
-        ├── dnd.js           # Pointer Events 기반 드래그·자성 스냅
-        ├── syllable-dock.js # 음절 도크 렌더링·셔플
-        ├── slot.js          # 정답 슬롯 컴포넌트(부분정답·검증)
-        ├── scene.js         # 장면 일러스트 + hotspot 렌더링·매칭
-        ├── hint.js          # 망설임 감지·자동 힌트
-        └── game.js          # 게임 루프(장면 출제·정답·종료)
+        ├── main.js          ✅ DOMContentLoaded 진입점
+        ├── config.js        ✅ 상수(카테고리, 난이도, SYLLABLE_POOL, STORAGE_KEYS)
+        ├── state.js         ✅ 단일 상태 객체, getState/resetGame/getCurrentTargetWord
+        ├── storage.js       ✅ localStorage 래퍼 (키 prefix `wn:`)
+        ├── utils.js         ✅ shuffle, sampleDistinct, longestCommonPrefix, vibrate
+        ├── tts.js           ✅ Web Speech API 래퍼 (ko-KR, rate 0.85)
+        ├── ui.js            ✅ showScreen, showFlash, animateShake/Sparkle, updateProgress/Score
+        ├── syllable-dock.js ✅ buildDock, renderDock, markUsed/unmarkUsed
+        ├── slot.js          ✅ renderSlots, fillNextSlot, checkSlots, lockSlots,
+        │                       clearSlotsFrom, markSlotsWrong, celebrateSlots, shakeSlots
+        ├── scene.js         ✅ bgImage+overlay+이모지 콜라주 렌더, markWordMatched, TTS 재발화
+        ├── game.js          ✅ startGame, 장면/단어 루프, onSyllableTap,
+        │                       onFilledSlotTap(취소), validateAnswer, endGame
+        ├── settings.js      🔲 (Phase 3)
+        ├── dnd.js           🔲 (Phase 2.A — 드래그·자성 스냅)
+        └── hint.js          🔲 (Phase 3)
 ```
 
-### 2.2 모듈 의존성 (계획)
+### 2.2 모듈 의존성
 
+**현재 구현**:
 ```
 main.js
-  ├─ storage.js ─→ state.js, config.js, words.js, scenes.js
-  ├─ settings.js ─→ state.js, storage.js, ui.js, game.js
   └─ game.js ─→ state.js, utils.js, tts.js, ui.js,
-                scene.js, slot.js, syllable-dock.js, dnd.js, hint.js
+                scene.js, slot.js, syllable-dock.js
 
 공통(최하위):
   config.js
-  utils.js ─→ config.js
-  state.js ─→ config.js
-  dnd.js   ─→ utils.js   (Pointer Events 캡슐화)
+  utils.js  ─→ config.js
+  state.js  ─→ config.js
+  storage.js (독립)
 ```
 
-`settings.js` ↔ `game.js` 순환 의존은 1단계와 동일하게 ES Module 런타임 참조로 허용.
+**Phase 2~3 추가 예정**:
+```
+main.js
+  ├─ settings.js ─→ state.js, storage.js, ui.js, game.js  (Phase 3)
+  └─ game.js ─→ ... dnd.js, hint.js  (Phase 2.A / Phase 3)
+
+  dnd.js ─→ utils.js  (Pointer Events 캡슐화)
+```
+
+`settings.js` ↔ `game.js` 순환 의존은 ES Module 런타임 참조로 허용.
 
 ### 2.3 상태 모델
 
@@ -202,7 +214,26 @@ function hitTest(pointer, scene) {
 
 `SNAP_RADIUS = 0.05` (상대값) — 부모 AGENTS.md의 "자성 스냅 ±20dp" 와 일치.
 
-### 3.5 망설임 감지·자동 힌트
+### 3.5 슬롯 탭 음절 취소
+
+```js
+function onFilledSlotTap(idx) {
+  if (idx < slot.lockedCount) return;  // 잠긴 prefix는 취소 불가
+  for (let i = idx; i < slot.filled.length; i++) {
+    if (slot.filled[i]) {
+      slot.filled[i].used = false;
+      unmarkUsed(slot.filled[i].id);
+      slot.filled[i] = null;
+    }
+  }
+  clearSlotsFrom(idx);  // idx 이후 슬롯 시각 초기화
+  vibrate(10);
+}
+```
+
+**규칙**: 탭한 슬롯부터 이후 모든 슬롯의 음절을 한꺼번에 도크로 환원. prefix 잠금(lockedCount) 이전은 취소 불가.
+
+### 3.6 망설임 감지·자동 힌트
 
 ```
 hesitationTicks++ at every 1s of no input
@@ -255,15 +286,27 @@ Private mode·할당량 초과 시 `try/catch` 후 in-memory로 graceful fallbac
 
 ## 5. 렌더링 전략
 
-### 5.1 일러스트 (3단 폴백)
+### 5.1 일러스트 (현재 구현 + 장기 계획)
 
+**현재 (Phase 1~2)**:
 ```
-1순위: inline SVG (hotspot은 SVG 좌표계의 <use>/<g> 그룹)
-2순위: <img src=".webp" />  + 별도 hotspot 오버레이
-3순위: 이모지 콜라주 (각 정답을 큰 이모지로 표시 — 1단계 패턴)
+bgImage (picsum.photos seed URL) → <img class="scene-bg-photo"> (배경 전체 커버)
+  + .scene-overlay (가독성 보정 반투명 레이어)
+  + .scene-bg (이모지 콜라주 — 분위기 연출용)
+  + .target-item (hotspot 위치에 이모지+라벨 절대 배치)
 ```
 
-`img.onerror` → 자동 폴백, 단계 강등 시각 차이 최소화.
+URL 형식: `https://picsum.photos/seed/{seed}/800/600`  
+— 동일 seed는 항상 동일 이미지, API 키 불필요, 안정적 서비스.
+
+**장기 폴백 계획 (Phase 4)**:
+```
+1순위: 자체 제작 SVG (hotspot은 SVG 좌표계의 <use>/<g> 그룹)
+2순위: bgImage (라이센스 사진 WebP 로컬 저장)
+3순위: 이모지 콜라주만 (네트워크 없음)
+```
+
+`img.onerror` → 그라디언트 배경(`bgColors`)으로 자동 폴백. picsum.photos URL은 Phase 4에서 자체 에셋으로 교체 예정.
 
 ### 5.2 DOM 업데이트
 

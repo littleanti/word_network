@@ -30,6 +30,9 @@ export const WORDS = [
   // DAILY OBJECTS (일상) - 12 words
   {id:'rain_umbrella', word:'우산', syllables:['우','산'], category:'일상', sceneId:'rain', emoji:'☂️', hint:'비 올 때 쓰는 것', hotspot:{x:0.30,y:0.68,r:0.10}},
   {id:'playground_shoes', word:'신발', syllables:['신','발'], category:'일상', sceneId:'playground', emoji:'👟', hint:'발에 신어요', hotspot:{x:0.65,y:0.80,r:0.09}},
+  {id:'playground_swing', word:'그네', syllables:['그','네'], category:'일상', sceneId:'playground', emoji:'🌟', hint:'앞뒤로 흔들어요', hotspot:{x:0.25,y:0.50,r:0.10}},
+  {id:'playground_seesaw', word:'시소', syllables:['시','소'], category:'일상', sceneId:'playground', emoji:'⚖️', hint:'올라갔다 내려가요', hotspot:{x:0.55,y:0.65,r:0.11}},
+  {id:'playground_sand', word:'모래', syllables:['모','래'], category:'일상', sceneId:'playground', emoji:'🏖️', hint:'손으로 쥐면 술술 빠져요', hotspot:{x:0.75,y:0.82,r:0.10}},
   {id:'morning_bag', word:'가방', syllables:['가','방'], category:'일상', sceneId:'morning', emoji:'🎒', hint:'학교 갈 때 메요', hotspot:{x:0.35,y:0.55,r:0.10}},
   {id:'morning_blanket', word:'이불', syllables:['이','불'], category:'일상', sceneId:'morning', emoji:'🛏️', hint:'잘 때 덮어요', hotspot:{x:0.55,y:0.45,r:0.12}},
   {id:'morning_pillow', word:'베개', syllables:['베','개'], category:'일상', sceneId:'morning', emoji:'😴', hint:'머리를 베고 자요', hotspot:{x:0.40,y:0.30,r:0.09}},

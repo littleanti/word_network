@@ -58,6 +58,14 @@ export function lockSlots(count) {
   }
 }
 
+export function fillSlotAt(char, idx) {
+  const slot = document.querySelector(`.syllable-slot[data-idx="${idx}"]`);
+  if (!slot || !slot.classList.contains('empty')) return;
+  slot.textContent = char;
+  slot.classList.remove('empty');
+  slot.classList.add('filled');
+}
+
 export function clearSlotsFrom(fromIndex) {
   const slots = [...document.querySelectorAll('.syllable-slot')];
   for (let i = fromIndex; i < slots.length; i++) {

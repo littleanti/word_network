@@ -318,3 +318,19 @@
   from { transform: translateY(40px); opacity: 0; }
   to   { transform: translateY(0); opacity: 1; }
 }
+
+/* === DRAG & DROP === */
+.syllable-block.dragging {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.syllable-block.drag-ghost {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+}
+
+.syllable-slot.drag-over {
+  background: var(--yellow);
+  border-color: var(--navy);
+  transform: scale(1.12);
+}
