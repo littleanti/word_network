@@ -145,7 +145,7 @@
 .scene-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.52);
   pointer-events: none;
 }
 

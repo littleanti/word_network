@@ -137,6 +137,7 @@ function onSyllableDrop(syllable, slotIdx) {
   syllable.used = true;
   markUsed(syllable.id);
   fillSlotAt(syllable.char, slotIdx);
+  speak(syllable.char);
   vibrate(15);
 
   if (slot.filled.every(v => v !== null)) {
@@ -159,7 +160,7 @@ function onSyllableTap(syllable) {
   syllable.used = true;
   markUsed(syllable.id);
   fillNextSlot(syllable.char, slot.lockedCount);
-
+  speak(syllable.char);
   vibrate(15);
 
   // Check if all slots filled

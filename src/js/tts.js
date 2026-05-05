@@ -34,6 +34,25 @@ export function speak(text, btnEl) {
   });
 }
 
+export function speakSequence(texts) {
+  if (!TTS_AVAILABLE) return;
+  import('./state.js').then(({ getState }) => {
+    if (!getState().settings.ttsEnabled) return;
+    speechSynthesis.cancel();
+    const sayAt = (i) => {
+      if (i >= texts.length) return;
+      const utt = new SpeechSynthesisUtterance(texts[i]);
+      utt.lang = 'ko-KR';
+      utt.rate = 0.85;
+      utt.pitch = 1.05;
+      if (_koVoice) utt.voice = _koVoice;
+      utt.onend = () => sayAt(i + 1);
+      speechSynthesis.speak(utt);
+    };
+    sayAt(0);
+  });
+}
+
 export function cancelSpeech() {
   if (TTS_AVAILABLE) speechSynthesis.cancel();
 }
