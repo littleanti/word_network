@@ -7,7 +7,7 @@ import { renderScene, markWordMatched } from './scene.js';
 import { showScreen, showFlash, updateProgress, updateScore } from './ui.js';
 import { vibrate } from './utils.js';
 import { speak, speakThen } from './tts.js';
-import { playCorrect, playIncorrect } from './sound.js';
+import { playCorrect, playIncorrect, initAudio } from './sound.js';
 import { initDrag } from './dnd.js';
 
 let _dragController = null;
@@ -133,6 +133,7 @@ function onSyllableDrop(syllable, slotIdx) {
   if (syllable.used) return;
   if (slot.filled.every(v => v !== null)) return;
 
+  initAudio();
   slot.filled[slotIdx] = syllable;
   syllable.used = true;
   markUsed(syllable.id);
@@ -151,6 +152,7 @@ function onSyllableTap(syllable) {
   const word = getCurrentTargetWord();
   if (!word) return;
 
+  initAudio();
   const { slot } = state.game;
 
   // find next empty index

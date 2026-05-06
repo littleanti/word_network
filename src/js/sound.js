@@ -11,18 +11,25 @@ function getCtx() {
 function tone(freq, start, dur, type = 'sine', peak = 0.18) {
   const c = getCtx();
   if (!c) return;
-  if (c.state === 'suspended') c.resume();
-  const t0 = c.currentTime + start;
-  const osc = c.createOscillator();
-  const gain = c.createGain();
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(0, t0);
-  gain.gain.linearRampToValueAtTime(peak, t0 + 0.01);
-  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  osc.connect(gain).connect(c.destination);
-  osc.start(t0);
-  osc.stop(t0 + dur + 0.05);
+  const schedule = () => {
+    const t0 = c.currentTime + start;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(peak, t0 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain).connect(c.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.05);
+  };
+  if (c.state === 'suspended') { c.resume().then(schedule); } else { schedule(); }
+}
+
+export function initAudio() {
+  const c = getCtx();
+  if (c && c.state === 'suspended') c.resume();
 }
 
 export function playCorrect() {
