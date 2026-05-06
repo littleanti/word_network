@@ -68,7 +68,7 @@ export function speakThen(text, callback) {
     utt.onend = fire;
     utt.onerror = fire;
     // fallback: onend가 오지 않을 경우 글자당 ~350ms 후 강제 실행
-    setTimeout(fire, Math.max(600, text.length * 350));
+    setTimeout(fire, 100);
     speechSynthesis.speak(utt);
   });
 }
