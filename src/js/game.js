@@ -6,7 +6,7 @@ import { renderSlots, fillNextSlot, fillSlotAt, checkSlots, lockSlots, clearSlot
 import { renderScene, markWordMatched } from './scene.js';
 import { showScreen, showFlash, updateProgress, updateScore } from './ui.js';
 import { vibrate } from './utils.js';
-import { speak } from './tts.js';
+import { speak, speakSequence } from './tts.js';
 import { playCorrect, playIncorrect } from './sound.js';
 import { initDrag } from './dnd.js';
 
@@ -137,11 +137,12 @@ function onSyllableDrop(syllable, slotIdx) {
   syllable.used = true;
   markUsed(syllable.id);
   fillSlotAt(syllable.char, slotIdx);
-  speak(syllable.char);
   vibrate(15);
 
   if (slot.filled.every(v => v !== null)) {
-    validateAnswer(getCurrentTargetWord());
+    validateAnswer(getCurrentTargetWord(), syllable.char);
+  } else {
+    speak(syllable.char);
   }
 }
 
@@ -160,16 +161,17 @@ function onSyllableTap(syllable) {
   syllable.used = true;
   markUsed(syllable.id);
   fillNextSlot(syllable.char, slot.lockedCount);
-  speak(syllable.char);
   vibrate(15);
 
   // Check if all slots filled
   if (slot.filled.every(v => v !== null)) {
-    validateAnswer(word);
+    validateAnswer(word, syllable.char);
+  } else {
+    speak(syllable.char);
   }
 }
 
-function validateAnswer(word) {
+function validateAnswer(word, lastSylChar) {
   const result = checkSlots(word);
   const state = getState();
 
@@ -177,7 +179,7 @@ function validateAnswer(word) {
     celebrateSlots();
     playCorrect();
     vibrate(30);
-    speak(word.word);
+    speakSequence([lastSylChar, word.word].filter(Boolean));
     markWordMatched(word.id);
     state.game.score += 10;
     updateScore(state.game.score);
@@ -192,6 +194,7 @@ function validateAnswer(word) {
     }, 1200);
 
   } else if (result && result.status === 'wrong') {
+    if (lastSylChar) speak(lastSylChar);
     shakeSlots();
     playIncorrect();
     vibrate(50);
