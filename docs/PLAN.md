@@ -1,8 +1,8 @@
 # 🗂️ PLAN — 3_word_network · 순우리말 어휘망 연결 게임
 
 > 개발 계획 및 진행 상태
-> Last updated: 2026-05-04
-> Status: **Phase 1 완료 · Phase 2 일부 완료**
+> Last updated: 2026-05-06
+> Status: **Phase 1 완료 · Phase 2 코드 완료 + TTS/사운드 품질 개선 (실기기 검증 대기)**
 > 참조: `./PRD.md`, `./TRD.md`, `../AGENTS.md`
 
 ## 🧭 마일스톤 개요
@@ -55,7 +55,7 @@
 
 ---
 
-## 🎯 Phase 2 — MVP P0 완성 (M2) ✅ 완료
+## 🎯 Phase 2 — MVP P0 완성 (M2) ✅ 코드 완료 (실기기 검증 대기)
 
 ### 2.A 인터랙션 강화 (탭 기본 / 드래그 옵션)
 - [x] 2.A.1 `dnd.js` — Pointer Events 이벤트 위임, AbortController 생명주기 ✅
@@ -89,7 +89,14 @@
 - [x] 2.F.4 음절 도크 3줄 기본 높이 ✅
 - [x] 2.F.5 Android 호환 이모지 교체 ✅
 
-**Exit 게이트**: PRD §9 지표 측정 가능 + 학부모·아이 실기기 1회 이상 검증. ← 미달성 (실기기 검증 필요)
+### 2.G TTS·사운드 품질 개선 (v0.2.x)
+- [x] 2.G.1 음절 입력 시 즉시 TTS 발화 ✅
+- [x] 2.G.2 마지막 음절 TTS → 정답사운드 → 전체 단어 TTS 순서 보장 (`speakThen`) ✅
+- [x] 2.G.3 마지막 음절 TTS → 오답사운드 순서 보장 ✅
+- [x] 2.G.4 `AudioContext` 사용자 제스처 시점 사전 초기화 (`initAudio`) ✅
+- [x] 2.G.5 `speakThen` onerror + 100ms setTimeout 폴백 (Chrome/Android onend 미발화 버그 대응) ✅
+
+**Exit 게이트**: PRD §9 지표 측정 가능 + 학부모·아이 실기기 1회 이상 검증. ← 코드 완료 / **실기기 검증 미달성**
 
 ---
 
@@ -188,10 +195,18 @@ main                  # 배포 가능한 안정 버전
 - 장면 실사 배경 이미지(Unsplash) + 가독성 오버레이 적용
 - 슬롯 탭으로 음절 취소 기능 추가
 
-### v0.2.0 (예정 — Phase 2 완성 / MVP)
-- 드래그 입력(`dnd.js`) + hotspot 매칭
-- 정답 사운드(차임)
-- playground 장면 단어 보강
+### v0.2.0 (2026-05-05 — Phase 2 코드 완성)
+- 드래그 입력(`dnd.js`) — Pointer Events + AbortController ✅
+- 정답 사운드(`sound.js`) — Web Audio API C5→E5→G5 아르페지오 / G3→D3 하강 ✅
+- playground 장면 단어 보강 (그네·시소·모래, 총 5개) ✅
+- 슬롯 탭으로 음절 취소 ✅
+- 장면 배경 이미지(picsum.photos) + 가독성 오버레이 ✅
+
+### v0.2.1 ~ v0.2.4 (2026-05-06 — TTS·사운드 품질 개선)
+- 마지막 음절 TTS → 정답/오답사운드 → 전체 단어 TTS 순서 보장 (`speakThen` 구현)
+- `AudioContext` 음절 탭/드롭 시점 사전 초기화 (`initAudio`) — TTS 콜백 내 사운드 재생 보장
+- `speakThen` onerror + 100ms fallback — Chrome/Android `onend` 미발화 버그 대응
+- `tone()` async resume 지원 — suspended 컨텍스트에서도 안전하게 스케줄
 
 ### v0.3.0 (예정 — Phase 3)
 - 설정 화면, 자동 힌트, 코칭 프롬프트, 오답 복습, 이어하기
