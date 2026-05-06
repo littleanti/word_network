@@ -53,6 +53,21 @@ export function speakSequence(texts) {
   });
 }
 
+export function speakThen(text, callback) {
+  if (!TTS_AVAILABLE) { if (callback) callback(); return; }
+  import('./state.js').then(({ getState }) => {
+    if (!getState().settings.ttsEnabled) { if (callback) callback(); return; }
+    speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'ko-KR';
+    utt.rate = 0.85;
+    utt.pitch = 1.05;
+    if (_koVoice) utt.voice = _koVoice;
+    utt.onend = () => { if (callback) callback(); };
+    speechSynthesis.speak(utt);
+  });
+}
+
 export function cancelSpeech() {
   if (TTS_AVAILABLE) speechSynthesis.cancel();
 }

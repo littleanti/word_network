@@ -6,7 +6,7 @@ import { renderSlots, fillNextSlot, fillSlotAt, checkSlots, lockSlots, clearSlot
 import { renderScene, markWordMatched } from './scene.js';
 import { showScreen, showFlash, updateProgress, updateScore } from './ui.js';
 import { vibrate } from './utils.js';
-import { speak, speakSequence } from './tts.js';
+import { speak, speakThen } from './tts.js';
 import { playCorrect, playIncorrect } from './sound.js';
 import { initDrag } from './dnd.js';
 
@@ -177,10 +177,9 @@ function validateAnswer(word, lastSylChar) {
 
   if (result === 'correct') {
     celebrateSlots();
-    playCorrect();
     vibrate(30);
-    speakSequence([lastSylChar, word.word].filter(Boolean));
     markWordMatched(word.id);
+    speakThen(lastSylChar, () => { playCorrect(); speak(word.word); });
     state.game.score += 10;
     updateScore(state.game.score);
     state.game.stickers.push(word.emoji);
@@ -194,10 +193,9 @@ function validateAnswer(word, lastSylChar) {
     }, 1200);
 
   } else if (result && result.status === 'wrong') {
-    if (lastSylChar) speak(lastSylChar);
     shakeSlots();
-    playIncorrect();
     vibrate(50);
+    speakThen(lastSylChar, () => { playIncorrect(); });
     markSlotsWrong(result.correctPrefixLen);
 
     // Return wrong syllables to dock
