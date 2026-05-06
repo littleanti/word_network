@@ -63,7 +63,12 @@ export function speakThen(text, callback) {
     utt.rate = 0.85;
     utt.pitch = 1.05;
     if (_koVoice) utt.voice = _koVoice;
-    utt.onend = () => { if (callback) callback(); };
+    let fired = false;
+    const fire = () => { if (!fired) { fired = true; callback?.(); } };
+    utt.onend = fire;
+    utt.onerror = fire;
+    // fallback: onend가 오지 않을 경우 글자당 ~350ms 후 강제 실행
+    setTimeout(fire, Math.max(600, text.length * 350));
     speechSynthesis.speak(utt);
   });
 }
