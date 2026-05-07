@@ -18,14 +18,25 @@ export const DIFFICULTY = {
   EASY: 'easy',
   MEDIUM: 'medium',
   HARD: 'hard',
+  CUSTOM: 'custom',
 };
 
-export const DECOY_COUNT = { easy: 2, medium: 3, hard: 4 };
+export const DECOY_COUNT = { easy: 2, medium: 3, hard: 4, custom: 5 };
 export const MAX_DOCK_SYLLABLES = 12;
 export const SNAP_RADIUS = 0.05;
 export const DRAG_THRESHOLD = 8;
 export const HESITATION_HINT_TICKS = 3;
 export const HESITATION_POSITION_TICKS = 6;
+
+export const SCENE_COUNT_OPTIONS = [3, 5, 8];
+export const CUSTOM_DECOY_OPTIONS = [2, 3, 4, 5, 6];
+
+export const DIFFICULTY_LEVELS = [
+  { key: 'easy',   emoji: '🌱', name: '레벨 1', desc: '디코이 2개' },
+  { key: 'medium', emoji: '🌿', name: '레벨 2', desc: '디코이 3개' },
+  { key: 'hard',   emoji: '🌳', name: '레벨 3', desc: '디코이 4개' },
+  { key: 'custom', emoji: '🔥', name: '레벨 4', desc: '커스텀' },
+];
 
 export const STORAGE_KEYS = {
   SETTINGS: 'wn:settings',
@@ -40,6 +51,7 @@ export const DEFAULT_SETTINGS = {
   hapticEnabled: true,
   hintMode: 'auto',
   coachingPrompt: true,
+  customDecoyCount: 5,
 };
 
 // Korean high-frequency syllables for decoy generation

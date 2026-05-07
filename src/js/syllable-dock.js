@@ -1,9 +1,9 @@
 import { shuffle, sampleDistinct } from './utils.js';
 import { DECOY_COUNT, SYLLABLE_POOL, MAX_DOCK_SYLLABLES } from './config.js';
 
-export function buildDock(targetWords, difficulty) {
+export function buildDock(targetWords, difficulty, customDecoyCount) {
   const correct = targetWords.flatMap(w => w.syllables);
-  const decoyCount = DECOY_COUNT[difficulty] ?? 3;
+  const decoyCount = difficulty === 'custom' ? (customDecoyCount ?? 5) : (DECOY_COUNT[difficulty] ?? 3);
   const maxDecoys = MAX_DOCK_SYLLABLES - correct.length;
   const decoys = sampleDistinct(SYLLABLE_POOL, Math.min(decoyCount, maxDecoys), correct);
   return shuffle([...correct, ...decoys]).map((char, i) => ({

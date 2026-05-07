@@ -9,6 +9,7 @@ const _state = {
     hapticEnabled: DEFAULT_SETTINGS.hapticEnabled,
     hintMode: DEFAULT_SETTINGS.hintMode,
     coachingPrompt: DEFAULT_SETTINGS.coachingPrompt,
+    customDecoyCount: DEFAULT_SETTINGS.customDecoyCount,
   },
   game: {
     scenes: [],           // Scene[] — selected for this session
