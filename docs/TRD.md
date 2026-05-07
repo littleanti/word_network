@@ -1,8 +1,8 @@
 # 🔧 TRD — 3_word_network · 순우리말 어휘망 연결 게임
 
 > Technical Requirements Document
-> Last updated: 2026-05-04
-> Status: Phase 1 완료 · Phase 2 일부 구현
+> Last updated: 2026-05-05
+> Status: Phase 1 완료 · Phase 2 코드 완료 (실기기 검증 대기)
 > 기준 패턴: `1_chosung_quiz/` (Vanilla JS · ES Modules · 정적 호스팅)
 
 ## 1. 기술 스택
@@ -393,5 +393,20 @@ URL 형식: `https://picsum.photos/seed/{seed}/800/600`
 - `storage.js`
 
 추출 시점은 "두 게임 모두 안정 동작" 이후, 일관 API 설계 1회로 끝낸다 (조기 추상화 금지).
+
+## 12. 홈·설정·완료 화면 디자인 시스템
+
+시작 화면(`start-screen`), 설정 화면(`settings-screen`), 게임 완료 화면(`end-screen`)은 `1_chosung_quiz` 의 디자인 시스템을 계승한다.
+
+| 요소 | 구현 방법 |
+|---|---|
+| 폰트 로드 | Google Fonts `Jua`(제목), `Gowun Dodum`(설명·본문) — 1단계와 동일 |
+| CSS 변수 | `tokens.css` — `1_chosung_quiz/src/css/tokens.css` 기준 팔레트 동일 적용 |
+| 버튼 컴포넌트 | `components.css` — 1단계 버튼 스타일 (큰 라운드 버튼, CSS 변수 색상) |
+| 배경 | `--color-bg` 변수 — 1단계와 동일한 밝은 배경 |
+| 레이아웃 | 수직 중앙 정렬, 카드형 컨테이너 (`start-screen`, `settings-screen`, `end-screen`) |
+
+> 플레이 화면은 이 게임 특유의 장면 일러스트·음절 도크 레이아웃을 사용한다.  
+> 시작·설정·완료 화면만 위 규격을 의무 준수한다.
 
 <!-- MANUAL: -->
