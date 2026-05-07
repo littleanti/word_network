@@ -9,8 +9,10 @@ import { vibrate } from './utils.js';
 import { speak, speakThen } from './tts.js';
 import { playCorrect, playIncorrect, initAudio } from './sound.js';
 import { initDrag } from './dnd.js';
+import { HESITATION_HINT_TICKS, HESITATION_POSITION_TICKS } from './config.js';
 
 let _dragController = null;
+let _hintTimer = null;
 
 const ENCOURAGEMENT = [
   '정말 잘했어요! 👏',
@@ -88,14 +90,16 @@ function loadCurrentWord() {
 
   state.game.slot = { filled: new Array(word.syllables.length).fill(null), lockedCount: 0 };
 
-  // Build dock for ALL remaining words in scene
   const remainingWords = scene.words.slice(targetIdx);
-  const dock = buildDock(remainingWords, state.settings.difficulty);
+  const dock = buildDock(remainingWords, state.settings.difficulty, state.settings.customDecoyCount);
   state.game.dock = dock;
 
   renderSlots(word);
   attachSlotTapHandlers();
   renderDock(dock, onSyllableTap);
+
+  resetHint();
+  startHintTimer();
 }
 
 function attachSlotTapHandlers() {
@@ -123,6 +127,8 @@ function onFilledSlotTap(idx) {
   }
   clearSlotsFrom(idx);
   vibrate(10);
+  resetHint();
+  startHintTimer();
 }
 
 function onSyllableDrop(syllable, slotIdx) {
@@ -139,11 +145,13 @@ function onSyllableDrop(syllable, slotIdx) {
   markUsed(syllable.id);
   fillSlotAt(syllable.char, slotIdx);
   vibrate(15);
+  resetHint();
 
   if (slot.filled.every(v => v !== null)) {
     validateAnswer(getCurrentTargetWord(), syllable.char);
   } else {
     speak(syllable.char);
+    startHintTimer();
   }
 }
 
@@ -155,21 +163,21 @@ function onSyllableTap(syllable) {
   initAudio();
   const { slot } = state.game;
 
-  // find next empty index
   const emptyIdx = slot.filled.findIndex((v, i) => i >= slot.lockedCount && v === null);
-  if (emptyIdx === -1) return; // all slots filled, shouldn't happen
+  if (emptyIdx === -1) return;
 
   slot.filled[emptyIdx] = syllable;
   syllable.used = true;
   markUsed(syllable.id);
   fillNextSlot(syllable.char, slot.lockedCount);
   vibrate(15);
+  resetHint();
 
-  // Check if all slots filled
   if (slot.filled.every(v => v !== null)) {
     validateAnswer(word, syllable.char);
   } else {
     speak(syllable.char);
+    startHintTimer();
   }
 }
 
@@ -178,11 +186,12 @@ function validateAnswer(word, lastSylChar) {
   const state = getState();
 
   if (result === 'correct') {
+    clearHintTimer();
     celebrateSlots();
     vibrate(30);
     markWordMatched(word.id);
     speakThen(lastSylChar, () => { playCorrect(); speak(word.word); });
-    state.game.score += 10;
+    state.game.score += 1;
     updateScore(state.game.score);
     state.game.stickers.push(word.emoji);
 
@@ -200,7 +209,10 @@ function validateAnswer(word, lastSylChar) {
     speakThen(lastSylChar, () => { playIncorrect(); });
     markSlotsWrong(result.correctPrefixLen);
 
-    // Return wrong syllables to dock
+    if (!state.game.wrongAnswers.some(w => w.id === word.id)) {
+      state.game.wrongAnswers.push(word);
+    }
+
     const { filled } = state.game.slot;
     for (let i = result.correctPrefixLen; i < filled.length; i++) {
       if (filled[i]) {
@@ -211,15 +223,14 @@ function validateAnswer(word, lastSylChar) {
     }
     clearSlotsFrom(result.correctPrefixLen);
 
-    // Lock correct prefix
     if (result.correctPrefixLen > 0) {
       state.game.slot.lockedCount = result.correctPrefixLen;
       lockSlots(result.correctPrefixLen);
     }
 
-    // Re-attach tap listeners after partial reset
     setTimeout(() => {
       renderDock(state.game.dock, onSyllableTap);
+      startHintTimer();
     }, 50);
   }
 }
@@ -238,6 +249,7 @@ function advanceScene() {
 }
 
 function endGame() {
+  clearHintTimer();
   const state = getState();
   showScreen('screen-end');
 
@@ -258,4 +270,87 @@ function endGame() {
   const enc = ENCOURAGEMENT[Math.floor(Math.random() * ENCOURAGEMENT.length)];
   const encEl = document.getElementById('end-encouragement');
   if (encEl) encEl.textContent = enc;
+
+  const wrongSection = document.getElementById('end-wrong-section');
+  const wrongList = document.getElementById('end-wrong-list');
+  const reviewToggle = document.getElementById('btn-review-toggle');
+  if (wrongSection && wrongList) {
+    if (state.game.wrongAnswers.length > 0) {
+      wrongSection.style.display = 'block';
+      wrongList.classList.remove('open');
+      if (reviewToggle) reviewToggle.textContent = '📝 틀린 단어 보기 ▼';
+      wrongList.innerHTML = '';
+      for (const word of state.game.wrongAnswers) {
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        const emojiEl = document.createElement('span');
+        emojiEl.className = 'review-emoji';
+        emojiEl.textContent = word.emoji;
+        const wordEl = document.createElement('span');
+        wordEl.className = 'review-word';
+        wordEl.textContent = word.word;
+        const ttsBtn = document.createElement('button');
+        ttsBtn.className = 'review-tts';
+        ttsBtn.textContent = '🔊';
+        ttsBtn.addEventListener('click', () => speak(word.word));
+        item.appendChild(emojiEl);
+        item.appendChild(wordEl);
+        item.appendChild(ttsBtn);
+        wrongList.appendChild(item);
+      }
+    } else {
+      wrongSection.style.display = 'none';
+    }
+  }
+}
+
+// ── Hint System ──────────────────────────────────────────────
+
+function startHintTimer() {
+  clearHintTimer();
+  _hintTimer = setInterval(() => {
+    const state = getState();
+    state.game.hesitationTicks++;
+    if (state.game.hesitationTicks === HESITATION_HINT_TICKS) {
+      applyHintLevel1();
+    } else if (state.game.hesitationTicks === HESITATION_POSITION_TICKS) {
+      applyHintLevel2();
+    }
+  }, 1000);
+}
+
+function clearHintTimer() {
+  if (_hintTimer) { clearInterval(_hintTimer); _hintTimer = null; }
+}
+
+function resetHint() {
+  const state = getState();
+  state.game.hesitationTicks = 0;
+  state.game.hintLevel = 0;
+  document.querySelectorAll('.syllable-block.hint-glow').forEach(el => el.classList.remove('hint-glow'));
+  document.querySelectorAll('.syllable-slot.hint-arrow').forEach(el => el.classList.remove('hint-arrow'));
+}
+
+function applyHintLevel1() {
+  const state = getState();
+  state.game.hintLevel = 1;
+  const word = getCurrentTargetWord();
+  if (!word) return;
+  const nextEmpty = state.game.slot.filled.findIndex((v, i) => i >= state.game.slot.lockedCount && v === null);
+  if (nextEmpty === -1) return;
+  const correctChar = word.syllables[nextEmpty];
+  const target = state.game.dock.find(s => !s.used && s.char === correctChar);
+  if (target) {
+    const btn = document.querySelector(`[data-syl-id="${CSS.escape(target.id)}"]`);
+    if (btn) btn.classList.add('hint-glow');
+  }
+}
+
+function applyHintLevel2() {
+  const state = getState();
+  state.game.hintLevel = 2;
+  const nextEmpty = state.game.slot.filled.findIndex((v, i) => i >= state.game.slot.lockedCount && v === null);
+  if (nextEmpty === -1) return;
+  const slotEl = document.querySelector(`.syllable-slot[data-idx="${nextEmpty}"]`);
+  if (slotEl) slotEl.classList.add('hint-arrow');
 }

@@ -1,10 +1,18 @@
-import { showScreen, showFlash } from './ui.js';
+import { showScreen } from './ui.js';
 import { startGame } from './game.js';
-import { loadSettings } from './storage.js';
+import { loadSettings, saveSettings } from './storage.js';
 import { getState } from './state.js';
+import { openSettings, startFromSettings } from './settings.js';
+import { DIFFICULTY_LEVELS } from './config.js';
+
+function startWithLevel(levelKey) {
+  const state = getState();
+  state.settings.difficulty = levelKey;
+  saveSettings(state.settings);
+  startGame();
+}
 
 function initApp() {
-  // Load saved settings
   const saved = loadSettings();
   if (saved) {
     const state = getState();
@@ -12,26 +20,29 @@ function initApp() {
     if (saved.categories) state.settings.categories = saved.categories;
   }
 
-  // Button listeners
-  const btnStart = document.getElementById('btn-quick-start');
-  if (btnStart) btnStart.addEventListener('click', startGame);
+  DIFFICULTY_LEVELS.forEach((lvl, i) => {
+    document.getElementById(`btn-level-${i + 1}`)
+      ?.addEventListener('click', () => startWithLevel(lvl.key));
+  });
 
-  const btnPlayAgain = document.getElementById('btn-play-again');
-  if (btnPlayAgain) btnPlayAgain.addEventListener('click', startGame);
+  document.getElementById('btn-play-again')?.addEventListener('click', startGame);
+  document.getElementById('btn-settings')?.addEventListener('click', openSettings);
+  document.getElementById('btn-home')?.addEventListener('click', () => showScreen('screen-start'));
+  document.getElementById('btn-back-start')?.addEventListener('click', () => showScreen('screen-start'));
 
-  const btnSettings = document.getElementById('btn-settings');
-  if (btnSettings) {
-    btnSettings.addEventListener('click', () => {
-      showFlash('설정 화면은 준비 중이에요! 😊', 'info');
-    });
-  }
+  document.getElementById('btn-settings-close')?.addEventListener('click', () => showScreen('screen-start'));
+  document.getElementById('btn-settings-home')?.addEventListener('click', () => showScreen('screen-start'));
+  document.getElementById('btn-settings-start')?.addEventListener('click', startFromSettings);
 
-  const btnHome = document.getElementById('btn-home');
-  if (btnHome) {
-    btnHome.addEventListener('click', () => {
-      showScreen('screen-start');
-    });
-  }
+  document.getElementById('btn-review-toggle')?.addEventListener('click', () => {
+    const list = document.getElementById('end-wrong-list');
+    const btn = document.getElementById('btn-review-toggle');
+    if (!list || !btn) return;
+    list.classList.toggle('open');
+    btn.textContent = list.classList.contains('open')
+      ? '📝 틀린 단어 접기 ▲'
+      : '📝 틀린 단어 보기 ▼';
+  });
 
   showScreen('screen-start');
 }

@@ -46,5 +46,5 @@ export function updateProgress(current, total) {
 
 export function updateScore(score) {
   const el = document.getElementById('score-badge');
-  if (el) el.textContent = `⭐ ${score}`;
+  if (el) el.textContent = `🏆 ${score}`;
 }
