@@ -275,10 +275,33 @@
 
 .play-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
   padding: 12px 16px 8px;
   flex-shrink: 0;
+}
+
+.progress-text {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 100px;
+  overflow: hidden;
+  margin: 0 16px 8px;
+  border: 2px solid var(--navy);
+  flex-shrink: 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--coral), var(--yellow));
+  transition: width 0.5s ease;
+  border-radius: 100px;
 }
 
 .btn-home {

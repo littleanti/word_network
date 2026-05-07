@@ -41,7 +41,7 @@ export function updateProgress(current, total) {
   const fill = document.getElementById('progress-fill');
   const text = document.getElementById('progress-text');
   if (fill) fill.style.width = `${(current / total) * 100}%`;
-  if (text) text.textContent = `${current} / ${total}`;
+  if (text) text.textContent = `문제 ${current} / ${total}`;
 }
 
 export function updateScore(score) {
