@@ -64,7 +64,6 @@ button {
   cursor: pointer;
   border: none;
   font-family: inherit;
-  font-weight: 700;
   touch-action: manipulation;
 }
 

@@ -6,6 +6,7 @@
   --mint: #6BCAB8;
   --mint-dark: #4fa192;
   --navy: #2D3047;
+  --navy-dark: #1a1c2b;
   --yellow: #FFD166;
   --yellow-dark: #d4ad4e;
   --pink: #FFB5B5;
@@ -13,6 +14,14 @@
   --red-dark: #b63333;
   --gray: #E5E1D6;
   --shadow: rgba(45, 48, 71, 0.15);
+
+  /* Cross-game semantic tokens (1_chosung_quiz와 동일) */
+  --color-bg: var(--cream);
+  --color-text: var(--navy);
+  --color-text-dim: #6b6e82;
+  --color-surface: #FFFFFF;
+  --color-surface2: #F5EDD8;
+  --color-border: var(--gray);
 
   /* Stage 3 additions */
   --sky-blue: #87CEEB;
