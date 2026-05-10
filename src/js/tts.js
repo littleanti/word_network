@@ -63,13 +63,29 @@ export function speakThen(text, callback) {
     utt.rate = 0.85;
     utt.pitch = 1.05;
     if (_koVoice) utt.voice = _koVoice;
+
     let fired = false;
-    const fire = () => { if (!fired) { fired = true; callback?.(); } };
+    let timerId = null;
+    const fire = () => {
+      if (fired) return;
+      fired = true;
+      if (timerId) { clearTimeout(timerId); timerId = null; }
+      callback?.();
+    };
     utt.onend = fire;
     utt.onerror = fire;
-    // fallback: onend가 오지 않을 경우 글자당 ~350ms 후 강제 실행
-    setTimeout(fire, 100);
-    speechSynthesis.speak(utt);
+    // 발화가 실제로 시작되면 fallback을 글자 길이에 맞춰 연장 (모바일 onend 미발화 대응)
+    utt.onstart = () => {
+      if (timerId) clearTimeout(timerId);
+      timerId = setTimeout(fire, text.length * 500 + 400);
+    };
+    // 초기 안전망: 모바일 Chrome cancel→speak race condition으로 발화 시작 자체가
+    // 안 되는 경우 대비. 글자당 ~400ms + 200ms 여유 (이전 100ms는 모바일에서 너무 짧아
+    // onstart 전에 fire 발동 → 음절 TTS 누락 발생)
+    timerId = setTimeout(fire, text.length * 400 + 200);
+
+    // 모바일 Chrome: cancel() 직후 speak() 호출이 무시되는 race condition 회피
+    setTimeout(() => speechSynthesis.speak(utt), 30);
   });
 }
 

@@ -227,6 +227,12 @@ main                  # 배포 가능한 안정 버전
 - 추석 명절 테마팩: 송편·등불·보름달
 - 장면 수 선택 옵션에 10 추가 (최대 10장면 세션)
 
+### v0.4.1 (2026-05-10 — 모바일 TTS 음절 누락 수정)
+- 모바일 Chrome에서 마지막 음절 TTS 발화 누락 버그 수정
+- 원인: `speakThen` fallback `setTimeout(fire, 100)`이 너무 짧아 모바일에서 발화 시작 전에 callback 실행됨
+- 수정: fallback을 글자수 비례(`text.length * 400 + 200`)로 변경, `onstart` 시 추가 연장
+- 추가: `cancel()` 직후 `speak()` race condition 회피 (30ms 지연)
+
 ### v1.0.0 (예정 — Phase 5)
 - 장면 20개, PWA, 부모 대시보드, 다크 모드
 
