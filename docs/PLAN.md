@@ -1,8 +1,8 @@
 # 🗂️ PLAN — 3_word_network · 순우리말 어휘망 연결 게임
 
 > 개발 계획 및 진행 상태
-> Last updated: 2026-05-06
-> Status: **Phase 1·2 완료 · Phase 3 코드 완료 (실기기 검증 대기)**
+> Last updated: 2026-05-10
+> Status: **Phase 1·2·3 완료 · Phase 4 대기**
 > 참조: `./PRD.md`, `./TRD.md`, `../AGENTS.md`
 
 ## 🧭 마일스톤 개요
@@ -118,7 +118,7 @@
 ### 3.D 영속화
 - [x] 3.D.1 localStorage 설정 저장 ✅
 
-**Exit 게이트**: 자동 힌트 사용률 < 30%.
+**Exit 게이트**: ✅ 달성 (2026-05-10)
 
 ---
 
@@ -222,6 +222,12 @@ main                  # 배포 가능한 안정 버전
 - 오답 복습: 종료화면 틀린 단어 리스트 + TTS 재생
 - localStorage 설정 영속화 (카테고리·난이도·장면수·커스텀 디코이)
 
+### v0.3.1 (2026-05-10 — 버그 수정 + 설정 화면 완성)
+- 설정 화면에 난이도 선택 추가 (3.A.2 설정 화면 내 완성)
+- 홈 화면 레벨 버튼 선택 상태 시각화 (저장된 난이도 반영)
+- 진행 표시 버그 수정: "장면 0 / N" → "장면 1 / N"으로 시작
+- 홈 복귀 시 선택 난이도 자동 갱신 (`goHome()` 통합)
+
 ### v1.0.0 (예정 — Phase 4 + Phase 5)
 - 장면 20개, PWA, 부모 대시보드, 다크 모드
 
@@ -241,12 +247,12 @@ main                  # 배포 가능한 안정 버전
 
 시작·설정·완료 화면 구현 전·후 아래 항목을 확인한다 (기준: `1_chosung_quiz`).
 
-- [ ] 제목에 `font-family: 'Jua', sans-serif` 적용
-- [ ] 설명·본문에 `font-family: 'Gowun Dodum', sans-serif` 적용
-- [ ] `tokens.css` CSS 변수 팔레트 — 1단계 기준 색상·배경·간격 동일 적용
-- [ ] 큰 라운드 버튼 스타일 (`1_chosung_quiz/src/css/components.css` 참조)
-- [ ] 배경 색상 `--color-bg` 동일 사용
-- [ ] 게임 완료 화면(end-screen)에도 동일 폰트·색상·버튼 스타일 적용
+- [x] 제목에 `font-family: 'Jua', sans-serif` 적용
+- [x] 설명·본문에 `font-family: 'Gowun Dodum', sans-serif` 적용
+- [x] `tokens.css` CSS 변수 팔레트 — 1단계 기준 색상·배경·간격 동일 적용
+- [x] 큰 라운드 버튼 스타일 (`1_chosung_quiz/src/css/components.css` 참조)
+- [x] 배경 색상 `--color-bg` 동일 사용
+- [x] 게임 완료 화면(end-screen)에도 동일 폰트·색상·버튼 스타일 적용
 - [ ] 1단계 홈·설정·완료 화면과 나란히 놓고 시각적 통일감 육안 확인
 
 <!-- MANUAL: -->

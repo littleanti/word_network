@@ -50,7 +50,6 @@ export function startGame() {
   state.game.targetWordIdx = 0;
 
   showScreen('screen-play');
-  updateProgress(0, state.game.scenes.length);
   updateScore(0);
 
   if (_dragController) _dragController.abort();
@@ -78,7 +77,7 @@ function loadCurrentScene() {
 
   renderScene(scene, scene.words);
   loadCurrentWord();
-  updateProgress(state.game.currentIdx, state.game.scenes.length);
+  updateProgress(state.game.currentIdx + 1, state.game.scenes.length);
 }
 
 function loadCurrentWord() {

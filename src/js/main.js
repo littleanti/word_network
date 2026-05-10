@@ -5,6 +5,19 @@ import { getState } from './state.js';
 import { openSettings, startFromSettings } from './settings.js';
 import { DIFFICULTY_LEVELS } from './config.js';
 
+function updateLevelButtonStates() {
+  const { difficulty } = getState().settings;
+  DIFFICULTY_LEVELS.forEach((lvl, i) => {
+    document.getElementById(`btn-level-${i + 1}`)
+      ?.classList.toggle('selected', lvl.key === difficulty);
+  });
+}
+
+function goHome() {
+  showScreen('screen-start');
+  updateLevelButtonStates();
+}
+
 function startWithLevel(levelKey) {
   const state = getState();
   state.settings.difficulty = levelKey;
@@ -27,12 +40,14 @@ function initApp() {
 
   document.getElementById('btn-play-again')?.addEventListener('click', startGame);
   document.getElementById('btn-settings')?.addEventListener('click', openSettings);
-  document.getElementById('btn-home')?.addEventListener('click', () => showScreen('screen-start'));
-  document.getElementById('btn-back-start')?.addEventListener('click', () => showScreen('screen-start'));
+  document.getElementById('btn-home')?.addEventListener('click', goHome);
+  document.getElementById('btn-back-start')?.addEventListener('click', goHome);
 
-  document.getElementById('btn-settings-close')?.addEventListener('click', () => showScreen('screen-start'));
-  document.getElementById('btn-settings-home')?.addEventListener('click', () => showScreen('screen-start'));
+  document.getElementById('btn-settings-close')?.addEventListener('click', goHome);
+  document.getElementById('btn-settings-home')?.addEventListener('click', goHome);
   document.getElementById('btn-settings-start')?.addEventListener('click', startFromSettings);
+
+  updateLevelButtonStates();
 
   document.getElementById('btn-review-toggle')?.addEventListener('click', () => {
     const list = document.getElementById('end-wrong-list');

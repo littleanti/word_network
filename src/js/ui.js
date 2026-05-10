@@ -40,8 +40,8 @@ export function animateSparkle(el) {
 export function updateProgress(current, total) {
   const fill = document.getElementById('progress-fill');
   const text = document.getElementById('progress-text');
-  if (fill) fill.style.width = `${(current / total) * 100}%`;
-  if (text) text.textContent = `문제 ${current} / ${total}`;
+  if (fill) fill.style.width = `${Math.max(0, (current - 1) / total * 100)}%`;
+  if (text) text.textContent = `장면 ${current} / ${total}`;
 }
 
 export function updateScore(score) {
