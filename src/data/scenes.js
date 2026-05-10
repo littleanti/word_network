@@ -1,6 +1,7 @@
 import { WORDS_BY_SCENE } from './words.js';
 
 export const SCENES = [
+  // ── 자연 ──────────────────────────────────────────────────────────
   {
     id: 'rain',
     name: '비 오는 날',
@@ -32,16 +33,6 @@ export const SCENES = [
     bgImage: 'https://images.unsplash.com/photo-1770110628704-86ba8c7b3b1c?w=800&q=80',
   },
   {
-    id: 'farm',
-    name: '동물 농장',
-    emoji: '🐄',
-    description: '동물 친구들이 사는 농장이에요.',
-    category: '동물',
-    bgEmojis: ['🌱', '🌻', '🏡', '🍃', '☀️'],
-    bgColors: ['#fff9c4', '#f9a825'],
-    bgImage: 'https://images.unsplash.com/photo-1642285777960-b4bb6c62116f?w=800&q=80',
-  },
-  {
     id: 'meadow',
     name: '꽃밭',
     emoji: '🌸',
@@ -50,6 +41,78 @@ export const SCENES = [
     bgEmojis: ['🌸', '🌺', '🌼', '🌻', '🍃'],
     bgColors: ['#fce4ec', '#f48fb1'],
     bgImage: 'https://images.unsplash.com/photo-1674668560191-536c9fd88b8d?w=800&q=80',
+  },
+  {
+    id: 'sky',
+    name: '저녁 하늘',
+    emoji: '🌅',
+    description: '하늘이 노을빛으로 물들어요.',
+    category: '자연',
+    bgEmojis: ['🌅', '☁️', '🌈', '✨', '🌙'],
+    bgColors: ['#ff8a65', '#ffcc80'],
+    bgImage: 'https://picsum.photos/seed/sunset-sky/800/500',
+  },
+  {
+    id: 'winter',
+    name: '겨울 나라',
+    emoji: '⛄',
+    description: '하얀 눈이 소복이 쌓였어요.',
+    category: '자연',
+    bgEmojis: ['❄️', '⛄', '🌨️', '🏔️', '⛷️'],
+    bgColors: ['#e3f2fd', '#90caf9'],
+    bgImage: 'https://picsum.photos/seed/winter-snow/800/500',
+  },
+  {
+    id: 'mountain',
+    name: '산길',
+    emoji: '⛰️',
+    description: '높은 산을 올라가요.',
+    category: '자연',
+    bgEmojis: ['⛰️', '🌲', '🍂', '🌿', '🪨'],
+    bgColors: ['#e8f5e9', '#66bb6a'],
+    bgImage: 'https://picsum.photos/seed/mountain-hiking/800/500',
+  },
+  {
+    id: 'river',
+    name: '강가',
+    emoji: '🏞️',
+    description: '맑은 물이 졸졸 흘러요.',
+    category: '자연',
+    bgEmojis: ['💧', '🐟', '🦆', '🪨', '🌿'],
+    bgColors: ['#e1f5fe', '#81d4fa'],
+    bgImage: 'https://picsum.photos/seed/river-stream/800/500',
+  },
+  {
+    id: 'garden',
+    name: '텃밭',
+    emoji: '🌱',
+    description: '채소와 꽃을 키우는 텃밭이에요.',
+    category: '자연',
+    bgEmojis: ['🌱', '🥦', '🥕', '🌻', '🪻'],
+    bgColors: ['#dcedc8', '#aed581'],
+    bgImage: 'https://picsum.photos/seed/vegetable-garden/800/500',
+  },
+  {
+    id: 'night',
+    name: '밤하늘',
+    emoji: '🌙',
+    description: '반짝반짝 별이 빛나는 밤이에요.',
+    category: '자연',
+    bgEmojis: ['🌙', '⭐', '✨', '🌟', '🔭'],
+    bgColors: ['#1a237e', '#3949ab'],
+    bgImage: 'https://picsum.photos/seed/starry-night/800/500',
+  },
+
+  // ── 동물 ──────────────────────────────────────────────────────────
+  {
+    id: 'farm',
+    name: '동물 농장',
+    emoji: '🐄',
+    description: '동물 친구들이 사는 농장이에요.',
+    category: '동물',
+    bgEmojis: ['🌱', '🌻', '🏡', '🍃', '☀️'],
+    bgColors: ['#fff9c4', '#f9a825'],
+    bgImage: 'https://images.unsplash.com/photo-1642285777960-b4bb6c62116f?w=800&q=80',
   },
   {
     id: 'pond',
@@ -61,6 +124,8 @@ export const SCENES = [
     bgColors: ['#e0f7fa', '#4dd0e1'],
     bgImage: 'https://images.unsplash.com/photo-1688410105308-1cc193fb9a2e?w=800&q=80',
   },
+
+  // ── 일상 ──────────────────────────────────────────────────────────
   {
     id: 'morning',
     name: '아침 풍경',
@@ -80,6 +145,70 @@ export const SCENES = [
     bgEmojis: ['🎠', '🎡', '⛲', '🌳', '☀️'],
     bgColors: ['#f3e5f5', '#ce93d8'],
     bgImage: 'https://images.unsplash.com/photo-1632667885254-2b7db795d58f?w=800&q=80',
+  },
+  {
+    id: 'classroom',
+    name: '교실',
+    emoji: '📚',
+    description: '선생님과 함께 공부해요.',
+    category: '일상',
+    bgEmojis: ['📚', '✏️', '📝', '🖍️', '🎒'],
+    bgColors: ['#fffde7', '#fff59d'],
+    bgImage: 'https://picsum.photos/seed/school-classroom/800/500',
+  },
+  {
+    id: 'kitchen',
+    name: '부엌',
+    emoji: '🍳',
+    description: '맛있는 음식을 만들어요.',
+    category: '일상',
+    bgEmojis: ['🍳', '🥘', '🥄', '🧺', '🔥'],
+    bgColors: ['#fbe9e7', '#ffab91'],
+    bgImage: 'https://picsum.photos/seed/kitchen-cooking/800/500',
+  },
+  {
+    id: 'market',
+    name: '시장',
+    emoji: '🛒',
+    description: '물건을 사고파는 시장이에요.',
+    category: '일상',
+    bgEmojis: ['🛒', '🍎', '🥕', '🎪', '🎊'],
+    bgColors: ['#fff3e0', '#ffb74d'],
+    bgImage: 'https://picsum.photos/seed/korean-market/800/500',
+  },
+  {
+    id: 'festival',
+    name: '추석 명절',
+    emoji: '🎑',
+    description: '온 가족이 함께하는 추석이에요.',
+    category: '일상',
+    bgEmojis: ['🎑', '🌕', '🌾', '🍃', '🏮'],
+    bgColors: ['#fff8e1', '#ffe082'],
+    bgImage: 'https://picsum.photos/seed/autumn-festival/800/500',
+  },
+
+  // ── 행동 ──────────────────────────────────────────────────────────
+  {
+    id: 'actions',
+    name: '운동장',
+    emoji: '🏃',
+    description: '활발하게 움직이는 시간이에요.',
+    category: '행동',
+    bgEmojis: ['🏃', '⚽', '🏅', '🤸', '💪'],
+    bgColors: ['#e8f5e9', '#a5d6a7'],
+    bgImage: 'https://picsum.photos/seed/sports-playground/800/500',
+  },
+
+  // ── 감정 ──────────────────────────────────────────────────────────
+  {
+    id: 'emotions',
+    name: '감정 세상',
+    emoji: '😊',
+    description: '여러 가지 마음을 느껴봐요.',
+    category: '감정',
+    bgEmojis: ['😊', '😢', '😨', '🤩', '😲'],
+    bgColors: ['#f3e5f5', '#ce93d8'],
+    bgImage: 'https://picsum.photos/seed/colorful-emotions/800/500',
   },
 ];
 

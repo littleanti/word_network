@@ -28,7 +28,7 @@ export const DRAG_THRESHOLD = 8;
 export const HESITATION_HINT_TICKS = 3;
 export const HESITATION_POSITION_TICKS = 6;
 
-export const SCENE_COUNT_OPTIONS = [3, 5, 8];
+export const SCENE_COUNT_OPTIONS = [3, 5, 8, 10];
 export const CUSTOM_DECOY_OPTIONS = [2, 3, 4, 5, 6];
 
 export const DIFFICULTY_LEVELS = [

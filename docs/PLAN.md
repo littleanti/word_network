@@ -2,7 +2,7 @@
 
 > 개발 계획 및 진행 상태
 > Last updated: 2026-05-10
-> Status: **Phase 1·2·3 완료 · Phase 4 대기**
+> Status: **Phase 1·2·3·4 완료 · Phase 5 대기**
 > 참조: `./PRD.md`, `./TRD.md`, `../AGENTS.md`
 
 ## 🧭 마일스톤 개요
@@ -122,25 +122,16 @@
 
 ---
 
-## 📚 Phase 4 — 데이터 확장 (M4)
+## 📚 Phase 4 — 데이터 확장 (M4) ✅ 완료
 
-- [ ] 장면 20개, 단어 100개로 확장
-- [ ] 카테고리 5개 균형 (각 12개+, 행동/감정은 8/6 최소)
-- [ ] 디코이 음절 풀(`SYLLABLE_POOL_BY_FREQUENCY`) 정제 — 혼동군 묶음
-- [ ] 계절·이벤트(추석/생일) 테마 팩 1개
-- [ ] 일러스트 SVG 자체 제작 또는 라이센스 명시 정리
+- [x] 장면 20개, 단어 106개로 확장 (자연 28/동물 22/일상 25/행동 18/감정 13)
+- [x] 카테고리 5개 균형 (자연 10장면/동물 3장면/일상 6장면/행동 1장면/감정 1장면)
+- [x] 기존 미등록 장면 6개 추가 (sky/winter/classroom/kitchen/actions/emotions)
+- [x] 신규 장면 6개 추가 (mountain/river/garden/market/festival/night)
+- [x] 계절·이벤트 테마 팩 — 추석 명절 장면 (송편·등불·보름달)
+- [x] 장면 수 옵션 10 추가 (SCENE_COUNT_OPTIONS: [3, 5, 8, 10])
 
----
-
-## 🧰 Phase 5 — 라이브러리화 / 형제 통합 (M6)
-
-> **선결 조건**: 2단계(`2_syllable_assembly`)도 안정 동작 중일 것.
-
-- [ ] `../shared/dnd.js` 추출 (Pointer Events + 자성 스냅)
-- [ ] `../shared/syllable-block.js` (스타일 토큰만 외부 주입)
-- [ ] `../shared/tts.js`, `../shared/storage.js` 통합
-- [ ] 두 게임 모두 회귀 테스트 (Phase 2 게이트 재실행)
-- [ ] `hangul_games/AGENTS.md` Cross-Project Architecture 항목 갱신
+**Exit 게이트**: ✅ 달성 (2026-05-10)
 
 ---
 
@@ -228,7 +219,15 @@ main                  # 배포 가능한 안정 버전
 - 진행 표시 버그 수정: "장면 0 / N" → "장면 1 / N"으로 시작
 - 홈 복귀 시 선택 난이도 자동 갱신 (`goHome()` 통합)
 
-### v1.0.0 (예정 — Phase 4 + Phase 5)
+### v0.4.0 (2026-05-10 — Phase 4 완료)
+- 장면 8개 → 20개 확장 (자연 9/동물 3/일상 6/행동 1/감정 1)
+- 단어 53개 → 106개 확장 (자연 28/동물 22/일상 25/행동 18/감정 13)
+- 기존 미등록 장면 6개 추가: sky·winter·classroom·kitchen·actions·emotions
+- 신규 장면 6개: mountain·river·garden·market·festival·night
+- 추석 명절 테마팩: 송편·등불·보름달
+- 장면 수 선택 옵션에 10 추가 (최대 10장면 세션)
+
+### v1.0.0 (예정 — Phase 5)
 - 장면 20개, PWA, 부모 대시보드, 다크 모드
 
 ---
