@@ -34,9 +34,10 @@ export const WORDS = [
   {id:'winter_ice',     word:'얼음',   syllables:['얼','음'],         category:'자연', sceneId:'winter',  emoji:'🧊',  hint:'물이 꽁꽁 얼어요',              hotspot:{x:0.55,y:0.70,r:0.10}},
   {id:'winter_frost',   word:'서리',   syllables:['서','리'],         category:'자연', sceneId:'winter',  emoji:'🌨️', hint:'풀잎에 하얗게 맺혀요',          hotspot:{x:0.70,y:0.60,r:0.10}},
 
-  // mountain (2)
+  // mountain (3)
   {id:'mountain_pebble',word:'돌멩이', syllables:['돌','멩','이'],   category:'자연', sceneId:'mountain',emoji:'🪨',  hint:'작고 둥근 돌',                   hotspot:{x:0.45,y:0.80,r:0.09}},
   {id:'mountain_mist',  word:'안개',   syllables:['안','개'],         category:'자연', sceneId:'mountain',emoji:'🌫️', hint:'뿌연 흰 연기처럼 보여요',        hotspot:{x:0.50,y:0.40,r:0.12}},
+  {id:'mountain_pinecone',word:'솔방울',syllables:['솔','방','울'],  category:'자연', sceneId:'mountain',emoji:'🌲',  hint:'소나무에 달리는 씨앗',           hotspot:{x:0.25,y:0.65,r:0.09}},
 
   // river (2)
   {id:'river_stream',   word:'개울',   syllables:['개','울'],         category:'자연', sceneId:'river',   emoji:'💧',  hint:'작고 맑은 물줄기',               hotspot:{x:0.50,y:0.60,r:0.15}},
@@ -127,9 +128,10 @@ export const WORDS = [
   {id:'kitchen_bowl',   word:'그릇',   syllables:['그','릇'],         category:'일상', sceneId:'kitchen', emoji:'🍽️', hint:'음식을 담는 것',                hotspot:{x:0.50,y:0.65,r:0.09}},
   {id:'kitchen_lid',    word:'뚜껑',   syllables:['뚜','껑'],         category:'일상', sceneId:'kitchen', emoji:'🍳',  hint:'냄비나 그릇을 덮어요',          hotspot:{x:0.25,y:0.45,r:0.09}},
 
-  // market (2)
+  // market (3)
   {id:'market_basket',  word:'소쿠리', syllables:['소','쿠','리'],   category:'일상', sceneId:'market',  emoji:'🧺',  hint:'둥글고 넓은 바구니',            hotspot:{x:0.45,y:0.65,r:0.10}},
   {id:'market_cotton_candy',word:'솜사탕',syllables:['솜','사','탕'],category:'일상', sceneId:'market',  emoji:'🍭',  hint:'구름처럼 달콤해요',             hotspot:{x:0.65,y:0.35,r:0.10}},
+  {id:'market_parsley', word:'미나리', syllables:['미','나','리'],   category:'일상', sceneId:'market',  emoji:'🌿',  hint:'시장에서 파는 초록 나물',        hotspot:{x:0.30,y:0.70,r:0.09}},
 
   // festival (2)
   {id:'festival_ricecake',word:'송편', syllables:['송','편'],         category:'일상', sceneId:'festival',emoji:'🌕',  hint:'추석에 먹는 떡',                hotspot:{x:0.40,y:0.60,r:0.10}},
