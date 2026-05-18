@@ -13,7 +13,7 @@
 | 모듈 시스템 | ES Modules (`type="module"`) | 빌드 불필요, 네이티브 지원 |
 | CSS | Vanilla CSS + CSS Variables | 토큰 관리 용이, 1단계 패턴 재사용 |
 | 폰트 | Google Fonts (Jua, Gowun Dodum) | 한글·아이 친화 |
-| 개발 서버 | `npx serve` 또는 Live Server, **포트 3003** (예약됨) |
+| 개발 서버 | `npx serve` 또는 Live Server, **포트 4323** (예약됨) |
 | 저장소 | `localStorage` (설정·진행 중 세션) + `IndexedDB` (누적 학습 데이터) |
 | TTS | Web Speech API (`speechSynthesis`) |
 | 입력 | Pointer Events API (마우스/터치/펜 통합) |
@@ -40,7 +40,7 @@
 │   ├── TRD.md           ← 본 문서
 │   └── PLAN.md
 ├── index.html            ✅
-├── package.json          ✅ (npx serve . -p 3003)
+├── package.json          ✅ (npx serve . -p 4323)
 ├── favicon.svg           ✅
 └── src/
     ├── css/

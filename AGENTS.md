@@ -4,7 +4,7 @@
 # 3_word_network — 순우리말 어휘망 연결 게임
 
 ## Status
-**구현 완료** — Vanilla JS + CSS, 빌드 단계 없음. 포트 **3003**.
+**구현 완료** — Vanilla JS + CSS, 빌드 단계 없음. 포트 **4323**.
 
 ## Purpose
 음절 단위 읽기가 가능해진 학습자에게 친숙한 고유어(순우리말) 어휘를 맥락 그림과 함께 제시하여, 음절들을 수평적으로 연결해 의미 있는 단어를 생성하는 능력을 기른다. 추상적 한자어로 진입하기 전, 일상 어휘 기반의 '읽기 자동화'를 완성하는 단계.
@@ -24,7 +24,7 @@
 | File | Description |
 |------|-------------|
 | `index.html` | 앱 진입점 — start/play/end 화면 포함 |
-| `package.json` | `npm run dev` → npx serve . -l 3003 |
+| `package.json` | `npm run dev` → npx serve . -l 4323 |
 
 ### Key JS Modules (`src/js/`)
 
@@ -124,7 +124,7 @@ main.js → initApp()
 - 햅틱(`vibrate`) + TTS + 효과음 세 가지를 정답 시 함께 실행
 
 ### Testing Requirements
-- `npm run dev` 실행 후 http://localhost:3003 에서 수동 테스트
+- `npm run dev` 실행 후 http://localhost:4323 에서 수동 테스트
 - 드래그 앤 드롭: 음절 블록 → 정답 슬롯 드래그 확인 (데스크탑 + 모바일)
 - 탭 방식: 음절 블록 탭 → 자동 슬롯 배치 확인
 - 장면 전환: 모든 단어 완성 후 다음 장면으로 이동 확인
