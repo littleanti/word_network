@@ -66,10 +66,10 @@
         │                       clearSlotsFrom, markSlotsWrong, celebrateSlots, shakeSlots
         ├── scene.js         ✅ bgImage+overlay+이모지 콜라주 렌더, markWordMatched, TTS 재발화
         ├── game.js          ✅ startGame, 장면/단어 루프, onSyllableTap,
-        │                       onFilledSlotTap(취소), validateAnswer, endGame
-        ├── settings.js      🔲 (Phase 3)
-        ├── dnd.js           🔲 (Phase 2.A — 드래그·자성 스냅)
-        └── hint.js          🔲 (Phase 3)
+        │                       onFilledSlotTap(취소), validateAnswer, endGame, applyHintLevel1/2
+        ├── settings.js      ✅ 카테고리·장면수·커스텀디코이 설정 화면
+        ├── dnd.js           ✅ Pointer Events 이벤트 위임 + AbortController (Phase 2.A)
+        └── hint.js          🔲 (힌트 로직은 game.js 내장 — applyHintLevel1/2)
 ```
 
 ### 2.2 모듈 의존성
@@ -77,8 +77,9 @@
 **현재 구현**:
 ```
 main.js
-  └─ game.js ─→ state.js, utils.js, tts.js, ui.js,
-                scene.js, slot.js, syllable-dock.js
+  ├─ game.js ─→ state.js, utils.js, tts.js, ui.js,
+  │             scene.js, slot.js, syllable-dock.js, dnd.js, sound.js
+  └─ settings.js ─→ state.js, storage.js, ui.js, game.js
 
 공통(최하위):
   config.js
@@ -87,16 +88,11 @@ main.js
   storage.js (독립)
 ```
 
-**Phase 2~3 추가 예정**:
+**Phase 3+ 추가 예정**:
 ```
-main.js
-  ├─ settings.js ─→ state.js, storage.js, ui.js, game.js  (Phase 3)
-  └─ game.js ─→ ... dnd.js, hint.js  (Phase 2.A / Phase 3)
-
-  dnd.js ─→ utils.js  (Pointer Events 캡슐화)
+hint.js (Phase 3) — 현재 game.js 내장, 분리 검토 중
+settings.js ↔ game.js 순환 의존은 ES Module 런타임 참조로 허용. (현재 동작 중)
 ```
-
-`settings.js` ↔ `game.js` 순환 의존은 ES Module 런타임 참조로 허용.
 
 ### 2.3 상태 모델
 
